@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #f5f5f5;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: #e10600;
+  color: #f5f5f5;
+}
+
+/* film grain overlay — adds texture so the dark surfaces don't read flat */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* vertical hairline grid — subtle garage/blueprint structure */
+.bg-grid {
+  background-image: linear-gradient(
+    to right,
+    rgba(245, 245, 245, 0.035) 1px,
+    transparent 1px
+  );
+  background-size: 90px 100%;
+}
+
+/* ambient light */
+.glow-red {
+  background: radial-gradient(
+    closest-side,
+    rgba(225, 6, 0, 0.22),
+    transparent 70%
+  );
+}
+
+.glow-gold {
+  background: radial-gradient(
+    closest-side,
+    rgba(244, 180, 0, 0.1),
+    transparent 70%
+  );
+}
+
+/* glass surface with hairline border; glows red on hover */
+.card-premium {
+  position: relative;
+  border: 1px solid rgba(245, 245, 245, 0.08);
+  background: linear-gradient(
+    160deg,
+    rgba(245, 245, 245, 0.05),
+    rgba(245, 245, 245, 0.015) 55%
+  );
+  transition:
+    border-color 0.15s var(--ease-snap),
+    box-shadow 0.15s var(--ease-snap);
+}
+
+.card-premium:hover {
+  border-color: rgba(225, 6, 0, 0.45);
+  box-shadow:
+    0 0 32px rgba(225, 6, 0, 0.14),
+    inset 0 0 24px rgba(225, 6, 0, 0.04);
+}
+
+/* HUD corner ticks — telemetry framing */
+.hud-corners::before,
+.hud-corners::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.hud-corners::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid rgba(244, 180, 0, 0.7);
+  border-left: 2px solid rgba(244, 180, 0, 0.7);
+}
+
+.hud-corners::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid rgba(244, 180, 0, 0.7);
+  border-right: 2px solid rgba(244, 180, 0, 0.7);
+}
+
+/* red halo on big stat numerals */
+.stat-glow {
+  text-shadow: 0 0 28px rgba(225, 6, 0, 0.45);
+}
+
+/* infinite ticker */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 26s linear infinite;
+}
+
+/* checkered-flag texture */
+.checkered {
+  background-image: repeating-conic-gradient(
+    rgba(245, 245, 245, 0.35) 0% 25%,
+    transparent 0% 50%
+  );
+  background-size: 10px 10px;
+}
+
+.btn-sharp {
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+
+/* light sweep across buttons on hover */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  background: linear-gradient(
+    105deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.35s var(--ease-snap);
+  pointer-events: none;
+}
+
+.btn-shine:hover::before {
+  left: 130%;
+}
